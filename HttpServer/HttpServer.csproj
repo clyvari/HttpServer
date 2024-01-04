@@ -6,6 +6,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>true</InvariantGlobalization>
 		<OptimizationPreference>Size</OptimizationPreference>
+		<IsPackable>true</IsPackable>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>$(AssemblyName)</ToolCommandName>
 	</PropertyGroup>
 
 	<ItemGroup>

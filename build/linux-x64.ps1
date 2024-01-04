@@ -1,0 +1,1 @@
+dotnet publish .\HttpServer\HttpServer.csproj --sc -p:PublishSingleFile=true -r linux-x64 -p:PublishTrimmed=true -p:DebugType=None -p:DebugSymbols=false -o publish\linux-x64

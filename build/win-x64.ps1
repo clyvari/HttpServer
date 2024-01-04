@@ -1,0 +1,1 @@
+dotnet publish .\HttpServer\HttpServer.csproj -p:PublishAot=true -p:DebugType=None -p:DebugSymbols=false -c Release -r win-x64 -p:AssemblyName='HttpServer.win-x64' -o publish\win-x64
