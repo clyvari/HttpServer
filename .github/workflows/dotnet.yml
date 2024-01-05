@@ -34,6 +34,7 @@ jobs:
         dotnet build --no-restore \
                      -c Release \
                      -r linux-x64 \
+                     -p:AssemblyName='httpserver.linux-x64' \
                      HttpServer/HttpServer.csproj
       
     - name: Publish
