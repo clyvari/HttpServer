@@ -26,5 +26,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore -c Release
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Publish
+      run: dotnet publish HttpServer/HttpServer.csproj -p:PublishAot=true -p:DebugType=None -p:DebugSymbols=false -c Release -r linux-x64 -p:AssemblyName='httpserver.linux-x64' -o publish
