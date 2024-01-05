@@ -25,13 +25,16 @@ jobs:
         dotnet-version: 8.x
     
     - name: Restore dependencies
-      run: dotnet restore -r linux-x64
+      run: |
+        dotnet restore -r linux-x64 \
+                       HttpServer/HttpServer.csproj
       
     - name: Build
       run: |
         dotnet build --no-restore \
                      -c Release \
                      -r linux-x64
+                     HttpServer/HttpServer.csproj
       
     - name: Publish
       run: |
