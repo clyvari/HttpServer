@@ -87,12 +87,12 @@ static bool TryValidateConfig(IEnumerable<TestConfig>? input, [NotNullWhen(true)
     output = [];
     foreach (var cfg in input)
     {
-        if (string.IsNullOrWhiteSpace(cfg.ServerPath)
-            || string.IsNullOrWhiteSpace(cfg.BaseAddress)
-            || !cfg.TestEntries.Any()
-            || cfg.TestEntries.Any(x => string.IsNullOrWhiteSpace(x.Url))
-            || (new FileInfo(cfg.ServerPath) is var f && !f.Exists)
-        ) { return false; }
+        if (string.IsNullOrWhiteSpace(cfg.ServerPath)) throw new Exception(nameof(cfg.ServerPath));
+        if (string.IsNullOrWhiteSpace(cfg.BaseAddress)) throw new Exception(nameof(cfg.BaseAddress));
+        if (!cfg.TestEntries.Any()) throw new Exception(nameof(cfg.TestEntries) + " empty");
+        if (cfg.TestEntries.Any(x => string.IsNullOrWhiteSpace(x.Url))) throw new Exception(nameof(TestEntry.Url));
+        if (new FileInfo(cfg.ServerPath) is var f && !f.Exists) throw new Exception(nameof(cfg.ServerPath) + $" ({cfg.ServerPath} -> {f.FullName})");
+
         output.Add(cfg with { ServerPath = f.FullName });
     }
 

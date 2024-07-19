@@ -1,6 +1,6 @@
 [
   {
-    "ServerPath": "HttpServer.exe",
+    "ServerPath": "bin/Debug/net8.0/HttpServer.exe",
     "BaseAddress": "https://localhost:46464",
     "Arguments": [],
     "TestEntries": [
@@ -11,7 +11,7 @@
     ]
   },
   {
-    "ServerPath": "HttpServer.exe",
+    "ServerPath": "bin/Debug/net8.0/HttpServer.exe",
     "BaseAddress": "https://localhost:46464",
     "Arguments": [
       "-u",
@@ -27,7 +27,7 @@
     ]
   },
   {
-    "ServerPath": "HttpServer.exe",
+    "ServerPath": "bin/Debug/net8.0/HttpServer.exe",
     "BaseAddress": "https://localhost:12345",
     "Arguments": [ "-c", "TestData/testcfg.json" ],
     "TestEntries": [

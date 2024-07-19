@@ -2,7 +2,8 @@
   "profiles": {
     "HttpServerTester": {
       "commandName": "Project",
-      "commandLineArgs": "testconfig.json"
+      "commandLineArgs": "testconfig.json",
+      "workingDirectory": "$(ProjectDir)"
     }
   }
 }
