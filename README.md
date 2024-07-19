@@ -3,13 +3,13 @@ Based on Kestrel (see: https://learn.microsoft.com/en-us/aspnet/core/fundamental
 
 Can be configugred by some command line options.
 Additional configuration should be provided in the following files:
-  - appsettings.json
-  - appsettings.{ENV}.json
-  - a config file specified by the -c option, or httpserver.json in the current directory by default
-And responds to classic ASP.Net Core options and env variables (ASPNETCORE_, DOTNET_, ...)
+  - `appsettings.json`
+  - `appsettings.{ENV}.json`
+  - a config file specified by the `-c` option, or `httpserver.json` in the current directory by default
+And responds to classic ASP.Net Core options and env variables (`ASPNETCORE_`, `DOTNET_`, ...)
 
 Example usage:
-  HttpServer -d ../MyDir -p 8080 -c myconfig.json
+  `HttpServer -d ../MyDir -p 8080 -c myconfig.json`
 
 Options:
 
