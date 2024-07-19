@@ -10,6 +10,19 @@ on:
     branches: [ "master" ]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.x
+        
+    - name: Build Test Project
+      working-directory: HttpServerTester
+      run: |
+        dotnet run -lp HttpServerTester
+
   build:
 
     runs-on: ubuntu-latest
