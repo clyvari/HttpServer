@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
       with:
@@ -24,12 +24,7 @@ jobs:
     - name: Build Test Project
       working-directory: HttpServerTester
       run: |
-        dotnet build
-    - name: test
-      working-directory: HttpServerTester/bin/Debug/net8.0
-      run: |
-        pwd;
-        ls -Fahil;
+        dotnet run -lp HttpServerTester
 
   # build:
 
