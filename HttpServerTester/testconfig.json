@@ -1,0 +1,40 @@
+[
+  {
+    "ServerPath": "HttpServer.exe",
+    "BaseAddress": "https://localhost:46464",
+    "Arguments": [],
+    "TestEntries": [
+      {
+        "Url": "/DATA1.txt",
+        "Content": "DATA1 CONTENT"
+      }
+    ]
+  },
+  {
+    "ServerPath": "HttpServer.exe",
+    "BaseAddress": "https://localhost:46464",
+    "Arguments": [
+      "-u",
+      "https://localhost:46464",
+      "-d",
+      "TestData"
+    ],
+    "TestEntries": [
+      {
+        "Url": "/DATA1.txt",
+        "Content": "DATA1 CONTENT"
+      }
+    ]
+  },
+  {
+    "ServerPath": "HttpServer.exe",
+    "BaseAddress": "https://localhost:12345",
+    "Arguments": [ "-c", "TestData/testcfg.json" ],
+    "TestEntries": [
+      {
+        "Url": "/TestData/DATA1.txt",
+        "Content": "DATA1 CONTENT"
+      }
+    ]
+  }
+]

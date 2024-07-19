@@ -10,33 +10,54 @@ if (!configFile.Exists) throw new Exception($"Test config file with path '{confi
 
 var config = await GetConfig(configFile);
 
-var proc = Process.Start(config.ServerPath, config.Arguments);
-await Task.Delay(1000);
 
-using var client = new HttpClient() { BaseAddress = new(config.BaseAddress) };
+await PlayTests(config, configFile);
 
-var queries = config.TestEntries.Select(async x => (Entry: x, Resp: await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, x.Url))));
 
-var resps = await Task.WhenAll(queries);
-var res = await Task.WhenAll(resps.Select(async x => (x.Entry, Errors: await CompareResponse(x.Entry, x.Resp))));
+Console.WriteLine("All queries where successfull !");
 
-var errors = res.Where(x => x.Errors.Any());
 
-if(errors.Any())
+static async Task PlayTests(IEnumerable<TestConfig> tests, FileInfo configFile)
 {
-    throw new Exception($@"
+    foreach (var test in tests)
+    {
+        await PlayTest(test, configFile);
+    }
+}
+
+static async Task PlayTest(TestConfig test, FileInfo configFile)
+{
+    using var proc = Process.Start(test.ServerPath, test.Arguments);
+    try
+    {
+        await Task.Delay(1000);
+
+        using var client = new HttpClient() { BaseAddress = new(test.BaseAddress) };
+
+        var queries = test.TestEntries.Select(async x => (Entry: x, Resp: await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, x.Url))));
+
+        var resps = await Task.WhenAll(queries);
+        var res = await Task.WhenAll(resps.Select(async x => (x.Entry, Errors: await CompareResponse(x.Entry, x.Resp))));
+        var errors = res.Where(x => x.Errors.Any());
+        if (errors.Any())
+        {
+            throw new Exception($@"
 For config:
   - Path: {configFile.FullName}
-  - Server: {config.ServerPath} {string.Join(" ", config.Arguments)}
-  - Base URL: {config.BaseAddress}
+  - Server: {test.ServerPath} {string.Join(" ", test.Arguments)}
+  - Base URL: {test.BaseAddress}
 Got the following errors:
 {string.Join("\n", errors.Select(x => $@"URL: {x.Entry}:
     {string.Join("\n", x.Errors.Select(y => $"    {y}"))}"))}
 ");
+        }
+    }
+    finally
+    {
+        Console.WriteLine("All done, killing server..");
+        proc.Kill();
+    }
 }
-
-
-proc.Kill();
 
 static async Task<IEnumerable<string>> CompareResponse(TestEntry entry, HttpResponseMessage response)
 {
@@ -58,39 +79,45 @@ static async Task<IEnumerable<string>> CompareResponse(TestEntry entry, HttpResp
     return errors;
 }
 
-static bool TryValidateConfig(TestConfig? input, [NotNullWhen(true)] out TestConfig? output)
+static bool TryValidateConfig(IEnumerable<TestConfig>? input, [NotNullWhen(true)] out List<TestConfig>? output)
 {
     output = null;
-    if (input is null
-        || string.IsNullOrWhiteSpace(input.ServerPath)
-        || string.IsNullOrWhiteSpace(input.BaseAddress)
-        || !input.TestEntries.Any()
-        || input.TestEntries.Any(x => string.IsNullOrWhiteSpace(x.Url))
-        || (new FileInfo(input.ServerPath) is var f && !f.Exists)
-    ) { return false; }
-    output = input with { ServerPath = f.FullName };
+    if (input?.Any() != true) return false;
+
+    output = [];
+    foreach (var cfg in input)
+    {
+        if (string.IsNullOrWhiteSpace(cfg.ServerPath)
+            || string.IsNullOrWhiteSpace(cfg.BaseAddress)
+            || !cfg.TestEntries.Any()
+            || cfg.TestEntries.Any(x => string.IsNullOrWhiteSpace(x.Url))
+            || (new FileInfo(cfg.ServerPath) is var f && !f.Exists)
+        ) { return false; }
+        output.Add(cfg with { ServerPath = f.FullName });
+    }
+
     return true;
 }
 
-static async Task<TestConfig> GetConfig(FileInfo configFile)
+static async Task<IEnumerable<TestConfig>> GetConfig(FileInfo configFile)
 {
     using var fileStream = File.OpenRead(configFile.FullName);
-    var cfg = await JsonSerializer.DeserializeAsync<TestConfig>(fileStream);
+    var cfg = await JsonSerializer.DeserializeAsync<TestConfig[]>(fileStream);
     if (!TryValidateConfig(cfg, out var cfg2)) throw new Exception("Invalid Config");
     return cfg2;
 }
 
 record TestConfig
 {
-    public string ServerPath { get; init; } = string.Empty;
-    public IEnumerable<string> Arguments { get; init; } = Array.Empty<string>();
-    public string BaseAddress {  get; init; } = string.Empty;
-    public IEnumerable<TestEntry> TestEntries { get; init; } = Array.Empty<TestEntry>();
+    public string ServerPath { get; init; } = "";
+    public IEnumerable<string> Arguments { get; init; } = [];
+    public string BaseAddress {  get; init; } = "";
+    public IEnumerable<TestEntry> TestEntries { get; init; } = [];
 }
 record TestEntry
 {
-    public string Url { get; init; } = string.Empty;
+    public string Url { get; init; } = "";
     public int StatusCode { get; init; } = 200;
-    public string Content { get; init; } = string.Empty;
+    public string Content { get; init; } = "";
     public bool IsRegex { get; init; } = false;
 }

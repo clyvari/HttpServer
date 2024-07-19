@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HttpServerTester": {
+      "commandName": "Project",
+      "commandLineArgs": "testconfig.json"
+    }
+  }
+}
