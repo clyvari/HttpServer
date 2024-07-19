@@ -29,9 +29,18 @@ var builder = WebApplication.CreateSlimBuilder(new WebApplicationOptions
 builder.WebHost.UseKestrelHttpsConfiguration();
 
 
-builder.Configuration.AddCommandLine(args, CommandLineSwitches.SelectMany(x => x.Value.ShortSwitches.Select(y => (Key: y, Value: x.Key)))
-                                                              .ToDictionary(x => x.Key, x => x.Value)
-                     );
+builder.Configuration
+       .AddCommandLine(
+            args, 
+            CommandLineSwitches.SelectMany(
+                x => x.Value.ShortSwitches,
+                (x, y) => (Key: y, Value: x.Key)
+            )
+            .ToDictionary(
+                x => x.Key, 
+                x => x.Value
+            )
+       );
 
 var configFile = new FileInfo(builder.Configuration.GetValue<string>(ConfigFileKey) ?? DefaultConfigFile).FullName;
 builder.Configuration.AddJsonFile(configFile, optional: true);
@@ -83,9 +92,19 @@ Example usage:
 Options:
 ");
 
-    var switches = CommandLineSwitches.Select(x => (sw: string.Join("|", x.Value.ShortSwitches.Append($"--{x.Key.ToLowerInvariant()}")), descr: x.Value.Description));
+    var switches = CommandLineSwitches.Select(
+        x => (
+            sw: string.Join("|", x.Value.ShortSwitches.Append($"--{x.Key.ToLowerInvariant()}")),
+            descr: x.Value.Description
+        )
+    );
     var maxSwitchLength = switches.Max(x => x.sw.Length);
-    sb = switches.Aggregate(sb, (acc, x) => acc.AppendLine($"    {x.sw}:{new string(' ', maxSwitchLength - x.sw.Length + 1)}{x.descr}"));
+    sb = switches.Aggregate(
+        sb,
+        (acc, x) => acc.AppendLine(
+            $"    {x.sw}:{new string(' ', maxSwitchLength - x.sw.Length + 1)}{x.descr}"
+        )
+    );
 
     Console.WriteLine(sb.ToString());
     return true;
