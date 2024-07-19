@@ -1,7 +1,7 @@
 [
   {
     "ServerPath": "bin/Debug/net8.0/HttpServer.exe",
-    "BaseAddress": "https://localhost:46464",
+    "BaseAddress": "https://127.0.0.1:46464",
     "Arguments": [],
     "TestEntries": [
       {
@@ -12,10 +12,10 @@
   },
   {
     "ServerPath": "bin/Debug/net8.0/HttpServer.exe",
-    "BaseAddress": "https://localhost:46464",
+    "BaseAddress": "https://127.0.0.1:46464",
     "Arguments": [
       "-u",
-      "https://localhost:46464",
+      "https://127.0.0.1:46464",
       "-d",
       "TestData"
     ],
@@ -28,7 +28,7 @@
   },
   {
     "ServerPath": "bin/Debug/net8.0/HttpServer.exe",
-    "BaseAddress": "https://localhost:12345",
+    "BaseAddress": "https://127.0.0.1:12345",
     "Arguments": [ "-c", "TestData/testcfg.json" ],
     "TestEntries": [
       {
