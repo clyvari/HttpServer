@@ -1,1 +1,1 @@
-dotnet pack .\HttpServer\HttpServer.csproj -p:DebugType=None -p:DebugSymbols=false -o publish\nuget
+dotnet pack .\HttpServer\Clyvari.HttpServer.csproj -p:DebugType=None -p:DebugSymbols=false -o publish\nuget
