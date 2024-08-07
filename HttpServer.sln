@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpServer", "HttpServer\HttpServer.csproj", "{42645053-F157-4163-8C92-F1D8BE30AB0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clyvari.HttpServer", "HttpServer\Clyvari.HttpServer.csproj", "{42645053-F157-4163-8C92-F1D8BE30AB0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpServerTester", "HttpServerTester\HttpServerTester.csproj", "{D7F918F4-F43E-4579-A2E3-A5A3B7BDA602}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpServerTester", "HttpServerTester\HttpServerTester.csproj", "{D7F918F4-F43E-4579-A2E3-A5A3B7BDA602}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
