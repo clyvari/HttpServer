@@ -11,6 +11,8 @@ And responds to classic ASP.Net Core options and env variables (`ASPNETCORE_`, `
 Example usage:
   `HttpServer -d ../MyDir -p 8080 -c myconfig.json`
 
+By default, it can be run by just double-clicking (or `./HttpServer`) without any options, and it will serve the files in the current directory at http://localhost:5000/
+
 Options:
 
     -d|--basedir:      The base directory to serve content from
