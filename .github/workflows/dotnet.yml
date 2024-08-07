@@ -51,4 +51,6 @@ jobs:
                        -p:DebugSymbols=false \
                        -p:AssemblyNameSuffix="$(dotnet nbgv get-version -v NuGetPackageVersion)" \
                        HttpServer/Clyvari.HttpServer.csproj
+        ls -Fahil publish
+        
 
