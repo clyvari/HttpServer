@@ -1,4 +1,4 @@
 {
   "BaseDir": "TestData",
-  "Urls": "https://localhost:46464"
+  "Urls": "http://127.0.0.1:4646"
 }
